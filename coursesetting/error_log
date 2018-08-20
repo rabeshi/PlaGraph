@@ -1,0 +1,6 @@
+[15-Sep-2015 09:04:23 UTC] Default exception handler: Unsupported redirect detected, script execution terminated Debug: 
+Error code: redirecterrordetected
+* line 2422 of /lib/weblib.php: moodle_exception thrown
+* line 2820 of /lib/moodlelib.php: call to redirect()
+* line 29 of /plagiarism/programming/coursesetting/ajax.php: call to require_login()
+

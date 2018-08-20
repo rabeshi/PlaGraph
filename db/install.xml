@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="plagiarism/programming/db" VERSION="20121207" COMMENT="XMLDB file for Moodle plagiarism/programming"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="plagiarism_programming" COMMENT="This table saves settings for source code plagiarism detection in programming assignments" NEXT="plagiarism_programming_rpt">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="cmid"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="The course module id" PREVIOUS="id" NEXT="scandate"/>
+        <FIELD NAME="scandate" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="The date submissions are scanned" PREVIOUS="cmid" NEXT="jplag"/>
+        <FIELD NAME="jplag" TYPE="int" LENGTH="1" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="JPlag tool is used or not" PREVIOUS="scandate" NEXT="moss"/>
+        <FIELD NAME="moss" TYPE="int" LENGTH="1" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="MOSS tool is used or not" PREVIOUS="jplag" NEXT="language"/>
+        <FIELD NAME="language" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Which language is used in the assignment" PREVIOUS="moss" NEXT="auto_publish"/>
+        <FIELD NAME="auto_publish" TYPE="int" LENGTH="1" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="language" NEXT="notification"/>
+        <FIELD NAME="notification" TYPE="char" LENGTH="200" NOTNULL="false" SEQUENCE="false" COMMENT="Used to display notifications to students" PREVIOUS="auto_publish" NEXT="starttime"/>
+        <FIELD NAME="starttime" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="The time when last plagiarism scanning occurred" PREVIOUS="notification" NEXT="latestscan"/>
+        <FIELD NAME="latestscan" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="timestamp of the latest scan" PREVIOUS="starttime" NEXT="notification_text"/>
+        <FIELD NAME="notification_text" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="the customised notification text to appear on the student assignment page" PREVIOUS="latestscan"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="cmid_index" UNIQUE="false" FIELDS="cmid" COMMENT="Index for cmid for fast searching"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="plagiarism_programming_rpt" COMMENT="containing different report versions" PREVIOUS="plagiarism_programming" NEXT="plagiarism_programming_jplag">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="cmid"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="id" NEXT="time_created"/>
+        <FIELD NAME="time_created" TYPE="int" LENGTH="15" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="cmid" NEXT="version"/>
+        <FIELD NAME="version" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="time_created" NEXT="detector"/>
+        <FIELD NAME="detector" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" PREVIOUS="version"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="report_primary" TYPE="primary" FIELDS="id" COMMENT="Primary key of the table"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="cmiverdet_index" UNIQUE="false" FIELDS="cmid, version, detector" COMMENT="Index for cmid, version, detector for fast searching"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="plagiarism_programming_jplag" COMMENT="containing JPlag scanning status of the lastest report" PREVIOUS="plagiarism_programming_rpt" NEXT="plagiarism_programming_moss">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="submissionid"/>
+        <FIELD NAME="submissionid" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" PREVIOUS="id" NEXT="status"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" PREVIOUS="submissionid" NEXT="directory"/>
+        <FIELD NAME="directory" TYPE="char" LENGTH="200" NOTNULL="false" SEQUENCE="false" PREVIOUS="status" NEXT="message"/>
+        <FIELD NAME="message" TYPE="char" LENGTH="200" NOTNULL="false" SEQUENCE="false" PREVIOUS="directory" NEXT="settingid"/>
+        <FIELD NAME="settingid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="message" NEXT="progress"/>
+        <FIELD NAME="progress" TYPE="int" LENGTH="3" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="Show the progress (in percentage) of the current status" PREVIOUS="settingid" NEXT="token"/>
+        <FIELD NAME="token" TYPE="char" LENGTH="32" NOTNULL="false" SEQUENCE="false" COMMENT="Contain a random token for security when a child process is initiated. This token is then compared with the token passed in to ensure it is a valid call" PREVIOUS="progress" NEXT="error_detail"/>
+        <FIELD NAME="error_detail" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="The detail of the error messages - for developer to see only" PREVIOUS="token"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="submissionid_index" UNIQUE="false" FIELDS="submissionid" COMMENT="Index for submissionid for fast searching"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="plagiarism_programming_moss" COMMENT="The table contains parameters and status for the last time the assignment is scanned with MOSS" PREVIOUS="plagiarism_programming_jplag" NEXT="plagiarism_programming_reslt">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="settingid"/>
+        <FIELD NAME="settingid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="resultlink"/>
+        <FIELD NAME="resultlink" TYPE="char" LENGTH="200" NOTNULL="false" SEQUENCE="false" PREVIOUS="settingid" NEXT="status"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" PREVIOUS="resultlink" NEXT="message"/>
+        <FIELD NAME="message" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="status" NEXT="progress"/>
+        <FIELD NAME="progress" TYPE="int" LENGTH="3" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="The progress (in percentage) of the lattest MOSS scanning" PREVIOUS="message" NEXT="token"/>
+        <FIELD NAME="token" TYPE="char" LENGTH="32" NOTNULL="false" SEQUENCE="false" COMMENT="For verification of valid call when a forked process initiated by the main process. The token is first generated by the main process and stored in this field, and passed that token to the forked process. It is a valid call if the token passed is the same with the token stored" PREVIOUS="progress" NEXT="error_detail"/>
+        <FIELD NAME="error_detail" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false" COMMENT="Detail of the encountered error. Valid only when status=error" PREVIOUS="token"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="settingid_index" UNIQUE="false" FIELDS="settingid" COMMENT="Index for settingid for fast searching"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="plagiarism_programming_reslt" COMMENT="store the result of the scanning, each record contains a pair" PREVIOUS="plagiarism_programming_moss" NEXT="plagiarism_programming_cours">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="student1_id"/>
+        <FIELD NAME="student1_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="id" NEXT="student2_id"/>
+        <FIELD NAME="student2_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="student1_id" NEXT="additional_codefile_name"/>
+        <FIELD NAME="additional_codefile_name" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="not null when the pair match is a comparison between a student and an additional code file" PREVIOUS="student2_id" NEXT="similarity1"/>
+        <FIELD NAME="similarity1" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" DECIMALS="2" COMMENT="similarity rate of student id 1" PREVIOUS="additional_codefile_name" NEXT="similarity2"/>
+        <FIELD NAME="similarity2" TYPE="number" LENGTH="5" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" DECIMALS="2" COMMENT="similarity rate of student id 2" PREVIOUS="similarity1" NEXT="comparison"/>
+        <FIELD NAME="comparison" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" PREVIOUS="similarity2" NEXT="comments"/>
+        <FIELD NAME="comments" TYPE="char" LENGTH="150" NOTNULL="false" SEQUENCE="false" PREVIOUS="comparison" NEXT="reportid"/>
+        <FIELD NAME="reportid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" COMMENT="foreign key to table programming_report" PREVIOUS="comments" NEXT="mark"/>
+        <FIELD NAME="mark" TYPE="char" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="used to mark a pair of assignment as having unusually high similarities" PREVIOUS="reportid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="pk_programming_result_id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="repst1st2_index" UNIQUE="false" FIELDS="reportid, student1_id, student2_id" COMMENT="Index for reportid, student1_id, student2_id for fast searching"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="plagiarism_programming_cours" COMMENT="containing the courses which is enabled when level is set to global" PREVIOUS="plagiarism_programming_reslt" NEXT="plagiarism_programming_date">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="id"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course_index" UNIQUE="false" FIELDS="course" COMMENT="Index for course for fast searching"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="plagiarism_programming_date" COMMENT="containing the scheduled scan date of each enabled assignment. One assignment can have several scan date" PREVIOUS="plagiarism_programming_cours">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="scan_date"/>
+        <FIELD NAME="scan_date" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="id" NEXT="finished"/>
+        <FIELD NAME="finished" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="scan_date" NEXT="settingid"/>
+        <FIELD NAME="settingid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="finished"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="date_primary" TYPE="primary" FIELDS="id" COMMENT="primary key"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="setfinsca_index" UNIQUE="false" FIELDS="settingid, finished, scan_date" COMMENT="Index for settingid, finished, scan_date for fast searching"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

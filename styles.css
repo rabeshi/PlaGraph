@@ -1,0 +1,346 @@
+/*
+    Document   : style.css
+    Created on : Mar 27, 2012, 11:21:55 PM
+    Author     : thanhtri
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.programming_result_chart {
+    position: relative;
+    height:250px;
+    width: 850px;
+    margin-bottom: 30px;
+}
+
+.programming_result_chart .canvas {
+    position: absolute;
+    width: 800px;
+    height: 245px;
+    margin-left: 45px;
+    border-left: 1px solid #a6a6ff;
+    border-bottom: 1px solid #a6a6ff;
+}
+
+.programming_result_chart .graph {
+    border-left: none;
+    border-bottom: none;
+}
+
+.programming_result_chart .bar {
+    background-color: #a6a6ff;
+    position: absolute;
+    height: 20px;
+    left: 0px;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25)
+}
+
+.programming_result_chart .bar:hover {
+    background-color: #a6ffff;
+}
+
+.programming_result_chart .legend {
+    position: absolute;
+    height: 20px;
+    left: -45px;
+}
+
+.programming_result_chart_overlay {
+    background-color: white;
+    padding-left: 25px;
+    padding-top: 25px;
+    width: 350px;
+    height: 200px;
+}
+
+.programming_result_popup_chart {
+    position: relative;
+    background-color: white;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 325px;
+    height: 150px;
+}
+
+.programming_result_popup_chart .bar {
+    position: absolute;
+    background-color: #a6a6ff;
+    width: 30px;
+    bottom: 0px;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25)
+}
+
+.programming_result_popup_chart .bar:hover {
+    background-color: #a6ffff;
+}
+
+.yui3-overlay-content {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
+    border: 1px solid #9EA8C6;
+}
+
+.programming_result_popup_chart label {
+    position: absolute;
+    width: 30px;
+    text-align: center;
+}
+
+.programming_result_popup_chart label.title {
+    left: 150px;
+    top: 30px;
+    font-weight:bold;
+    font-size: larger;
+    left: 50px;
+    top: -10px;
+    width: 200px;
+}
+
+.programming_result_popup_chart label.h_label {
+    left: 290px;
+    top:155px;
+}
+
+.programming_result_popup_chart label.v_label {
+    left: -25px;
+    top:5px;
+}
+
+.similar_pair .show_history {
+    cursor: pointer;
+}
+
+div.programming_result_table {
+    width: 100%;
+    overflow: auto;
+}
+
+.plagiarsm_programming_course_selection_wrapper {
+    padding: 0px;
+    margin: -10px;
+    height: 350px;
+    font-size: larger;
+    overflow: auto;
+}
+
+.plagiarsm_programming_course_selection_wrapper fieldset.hidden {
+    padding: 0px;
+}
+
+.plagiarsm_programming_course_selection_wrapper .mform .fitem .felement {
+    margin-left: 10px;
+}
+
+.plagiarsm_programming_course_selection_wrapper .enabled {
+    background-color: #89FC63;
+    opacity: 0.7;
+}
+
+.plagiarsm_programming_course_selection_wrapper .coursename {
+    float: left;
+}
+
+.plagiarsm_programming_course_selection_wrapper .selectbutton {
+    float: right;
+}
+
+a.plagiarism_programming_student_link:link,a.plagiarism_programming_student_link:visited {
+    color: blue;
+}
+
+a.compare_link:link,a.compare_link:visited {
+    color: #0066CC;
+}
+
+table.plagiarism_programming_result_table .normal, table.plagiarism_programming_result_table .normal .cell {
+    background-color: #cafeb8;
+}
+
+table.plagiarism_programming_result_table .suspicious, table.plagiarism_programming_result_table .suspicious .cell {
+    background-color: #f9d6b8;
+}
+
+.programming_result_comparison_top_left {
+    width:50%;
+    height: 150px;
+    float: left;
+    overflow: auto;
+}
+
+.programming_result_comparison_top_left table {
+    width: 100%;
+    border: 1px solid black;
+    margin: 0px;
+}
+
+.programming_result_comparison_top_left .simiarity_table_holder {
+    height: 120px;
+    width: 95%;
+    margin: auto;
+    overflow: auto;
+}
+
+.programming_result_comparison_top_left table th {
+    background-color: #d0d0d0;
+}
+
+.programming_result_comparison_top_right {
+    width:39%;
+    float: left;
+    border: none;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.programming_result_comparison_bottom_left {
+    width:50%;
+    height: 600px;
+    float: left;
+    overflow: auto;
+    margin-top: 5px;
+    position: relative;
+}
+
+.programming_result_comparison_bottom_right {
+    width:50%;
+    height:600px;
+    float: right;
+    overflow: auto;
+    margin-top: 5px;
+    position: relative;
+}
+
+.programming_result_comparison_separator {
+    border-top: 1px solid black;
+    clear: both;
+    margin-top: 5px;
+}
+
+.programming_result_mark_img {
+    border: none;
+    display: none;
+    vertical-align: middle;
+    margin-left: 20px;
+    width: 40px;
+    height: 40px;
+}
+
+.programming_result_warning {
+    color: red;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.programming_student_similarity_menu {
+    background-color: white;
+    margin: 0px;
+    padding: 3px 0px;
+}
+
+.programming_student_similarity_menu li {
+    list-style-type: none;
+}
+
+.programming_student_similarity_menu li:hover {
+    background-color: #B3D4FF;
+}
+
+.programming_student_similarity_menu a:link {
+    margin: 0px 20px;
+    color: black;
+}
+
+.programming_student_similarity_menu a:visited {
+    color: black;
+}
+
+.programming_student_similarity_menu a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.enable_course_footer_panel {
+    text-align: center;
+}
+
+.student_similarity_view_img {
+    cursor: pointer;
+}
+
+.compare_header {
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
+}
+
+.colored {
+    font-weight: bold;
+}
+
+.block_selected {
+    font-weight: bold;
+}
+
+/**
+ * Progress bar CSS
+*/
+.yui-pb {
+	text-align:left;
+	vertical-align:top;
+
+	padding:0;
+	border:none;
+	margin:0;
+
+	width:200px;
+	height:20px;
+
+	background-attachment:scroll;
+	background-position:left top;
+
+	position:relative;
+	top:0;
+	left:0;
+}
+
+.yui-pb-mask {
+	position:absolute;
+	top:0;
+	left:0;
+
+	width:100%;
+	height:100%;
+
+	background-attachment:scroll;
+	z-index:1;
+}
+
+.yui-pb-mask td {
+	width:50%;
+	height:50%;
+	background-repeat:no-repeat;
+	border:0;
+	padding:0;
+}
+
+.yui-pb-tl {
+	background-position: top left;
+}
+.yui-pb-tr {
+	background-position: top right;
+}
+.yui-pb-bl {
+	background-position: bottom left;
+}
+.yui-pb-br {
+	background-position: bottom right;
+}
+
+.yui-pb-bar {
+	background-color: blue;
+	width:100%;
+	height:100%;
+
+	position:relative;
+	left:0;
+	top:0;
+}
